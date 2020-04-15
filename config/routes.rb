@@ -26,4 +26,6 @@ Rails.application.routes.draw do
 			end
 		end
 	end
+
+	get "*path", to: "home#index", :constraints => lambda{|req| req.path !~ /\.(png|jpg|js|css|json)$/} #qualquer chamada é jogada no home#index (react) e não do rails (com exceção dos constraints)
 end
