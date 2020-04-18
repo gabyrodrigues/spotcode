@@ -2,6 +2,7 @@ import React from 'react';
 import { Heading, Columns } from 'react-bulma-components';
 import styled from 'styled-components'
 import { FaPlayCircle, FaStopCircle } from "react-icons/fa";
+import Favorite from '../../common/Favorite';
 
 
 const MusicSeparator = styled.hr`
@@ -16,10 +17,10 @@ const CustomSubHeading = styled(Heading)`
 const Music = (props) => {
 	let PlayingButton;
 
-	if(props.playing) {
-		PlayingButton = <FaStopCircle size='45px' className='has-text-white' onClick={() => props.setPlaying([])}/>
+	if (props.playing) {
+		PlayingButton = <FaStopCircle size='45px' className='has-text-white' onClick={() => props.setPlaying([])} />
 	} else {
-		PlayingButton = <FaPlayCircle size='45px' className='has-text-white' onClick={() => props.setPlaying(props.song)}/>
+		PlayingButton = <FaPlayCircle size='45px' className='has-text-white' onClick={() => props.setPlaying(props.song)} />
 	}
 
 	return (
@@ -33,13 +34,13 @@ const Music = (props) => {
 						<Columns.Column desktop={{ size: 8 }} mobile={{ size: 8 }}>
 							<Heading size={5} className='has-text-white'>
 								{props.song.title}
-               </Heading>
+							</Heading>
 							<CustomSubHeading size={6} className='has-text-white' subtitle>
 								{props.song.artist_name}
-               </CustomSubHeading>
+							</CustomSubHeading>
 						</Columns.Column>
 						<Columns.Column desktop={{ size: 4 }} mobile={{ size: 4 }} className='is-pulled-right has-text-right'>
-							{/* Favorite */}
+							<Favorite id={props.song.id} kind='songs' favored={props.song.favorite} />
 						</Columns.Column>
 					</Columns>
 					<MusicSeparator />

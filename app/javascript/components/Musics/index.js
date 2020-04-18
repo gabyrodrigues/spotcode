@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Button, Columns } from 'react-bulma-components';
 import Music from './Music';
+import RecentlyHeardsService from '../../services/recently_heards';
 
 const PlaySequenceButton = styled(Button)`
 	margin-bottom: 30px;
@@ -30,7 +31,6 @@ const Musics = (props) => {
 		}
 	}
 
-
 	useEffect(() => {
 		if (playRandom)
 			NextSong();
@@ -42,6 +42,7 @@ const Musics = (props) => {
 			AudioRef.current.load(); //carrega a musica (verifica se a url mudou e recarrega)
 			if (playing.id) {
 				AudioRef.current.play();
+				RecentlyHeardsService.create(playing.album_id); //adiciona a música às recem ouvidas
 			}
 		}
 	}, [playing]);
