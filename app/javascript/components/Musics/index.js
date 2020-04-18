@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { Button, Columns } from 'react-bulma-components';
 import Music from './Music';
@@ -10,7 +10,42 @@ const PlaySequenceButton = styled(Button)`
 const Musics = (props) => {
 	const [songs, setSongs] = useState([]);
 	const [playing, setPlaying] = useState([]);
-	 
+	const [playRandom, setPlayRandom] = useState(false);
+	const AudioRef = useRef(); //permite o controle da música
+
+	const NextSong = () => { //chama a próxima música aleatória
+		if (playRandom) { //se playRandom estiver true ele procura e seta a proxima musica aleatoria a ser tocada
+			let index = Math.floor(Math.random() * props.songs.length);
+			setPlaying(props.songs[index]);
+		} else
+			setPlaying([]);
+	}
+
+	const SwitchRandom = () => {
+		if (playRandom) {
+			setPlayRandom(false);
+			setPlaying([]);
+		} else {
+			setPlayRandom(true);
+		}
+	}
+
+
+	useEffect(() => {
+		if (playRandom)
+			NextSong();
+	}, [playRandom]);
+
+	useEffect(() => { //atualiza sempre que a música mudar
+		if (AudioRef.current !== null) { //se o audio já foi montado na tela
+			AudioRef.current.pause(); //pausa a musica
+			AudioRef.current.load(); //carrega a musica (verifica se a url mudou e recarrega)
+			if (playing.id) {
+				AudioRef.current.play();
+			}
+		}
+	}, [playing]);
+
 	useEffect(() => {
 		setSongs(props.songs.map((song, key) =>
 			<Music
@@ -19,8 +54,8 @@ const Musics = (props) => {
 				setPlaying={setPlaying}
 				key={key}
 			/>
-	 ));
- 	}, [props.songs, playing]);
+		));
+	}, [props.songs, playing]);
 
 	return (
 		<>
@@ -29,9 +64,14 @@ const Musics = (props) => {
 					<PlaySequenceButton
 						className='is-medium'
 						color='primary'
-						outlined>
-						Tocar aleatoriamente
+						outlined
+						onClick={() => SwitchRandom()}
+					>
+						{playRandom == true ? 'Parar de tocar' : 'Tocar aleatoriamente'}
 					</PlaySequenceButton>
+					<audio controls ref={AudioRef} onEnded={() => NextSong()} className='is-hidden'>
+						<source src={playing.file_url} />
+					</audio>
 				</Columns.Column>
 			</Columns>
 			{songs}
