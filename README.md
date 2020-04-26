@@ -1,25 +1,31 @@
-# README
+# Spotcode
+PWA clone do Spotify
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Dependencies
 
-Things you may want to cover:
+- Ruby 2.7.1
 
-* Ruby version
+- Rails 6.0.2
 
-* System dependencies
+- Ngrok was used in PWA testing
 
-* Configuration
+## Configuration
 
-* Database creation
+- Clone the project:
+    ```
+    git clone git@github.com:gabyrodrigues/spotcode.git
+    ```
 
-* Database initialization
+- Install the gems:
+    ```
+    bundle install
+    ```
+    
+- Create a new database called 'desenv'
 
-* How to run the test suite
+- Create a new schema called 'spotcode'
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-# spotcode
+- Run the migrations:
+    ```
+    rails db:migrate
+    ```
